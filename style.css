@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;900&display=swap');
+@font-face {
+    font-family: Pokemon;
+    src:url("fonts/Pokemon_GB.ttf");
+}
+
+:root {
+    --bg1: #36383b;
+    --bg2: #2b2c2e;
+    --bg3: #1f1f21;
+    --bg4: #131314;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--bg1);
+}
+
+* {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+}
+
+.website {
+    background-color: var(--bg1);
+    display: flex;
+    flex-direction: row;
+    min-height: 100%;
+    height: fit-content
+}
+
+.input_container {
+    margin: 16px;
+    width: 80%;
+}
+
+.input_container textarea {
+    background-color: var(--bg2);
+}
+
+#input_poke_text {
+    height: 128px;
+    max-height: fit-content;
+    width: 80%;
+    resize: none;
+}
+
+#show_pokemon_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: baseline;
+    height: 100%;
+    width: 20%;
+
+}
+
+.pokemon_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100%;
+    margin: 4px 0 4px 0;
+    background-color: var(--bg3);
+}
+
+.shiny {
+    background-color: var(--bg4);
+    color: rgb(214, 199, 88);
+}
+
+.triangle {
+    height: 64px;
+    width: 100px;
+    background: linear-gradient(to bottom right, var(--bg1) 0%, var(--bg1) 50%, var(--bg3) 50%, var(--bg3) 100%);
+}
+
+.triangle-shiny {
+    background: linear-gradient(to bottom right, var(--bg1) 0%, var(--bg1) 50%, var(--bg4) 50%, var(--bg4) 100%);
+}
+
+.pokemon_image_container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    max-height: 100%;
+}
+
+.pokemon_image_container img {
+    max-height: 100%;
+}
+
+.pokemon_name {
+    font-family: Pokemon, sans-serif;
+    font-size: 16px;
+    margin-bottom: 4px
+}
+
+.pokemon_item {
+    padding-right: 8px;
+}
