@@ -1,10 +1,13 @@
 var Pokemon = [];
 
+function pasteList() {
+    navigator.clipboard.readText().then(text => {
+        document.getElementById("input_poke_text").value = text;
+    });
+}
+
 function submitPokeList() {
-    const show_pokemon_container = document.getElementById("show_pokemon_container")
-
     const input_poke_text = document.getElementById("input_poke_text").value;
-
     const raw_input = input_poke_text.startsWith("********") ? input_poke_text.substring(input_poke_text.indexOf('\n') + 1) : input_poke_text;
 
     if (!raw_input.startsWith("Normale Pokemon")) {
@@ -21,37 +24,54 @@ function submitPokeList() {
     const list_shiny_poke = extractPokemon(raw_shiny_poke);
     const list_shiny_num = extractPokemonNum(raw_shiny_poke);
 
-    for (let i = 0; i < list_shiny_poke.length; i++) {
+    for (var i = 0; i < list_shiny_poke.length; i++) {
         const element = list_shiny_num[i];
+        const poke_name = list_shiny_poke[i];
         
         fetch(`https://pokeapi.co/api/v2/pokemon/${element}`)
             .then(response => response.json())
             .then(data => {
-                //addPokemonToJSON(list_shiny_poke[i], data.types, data.sprites.front_shiny, true)
-                addPokemonToPage(list_shiny_poke[i], data.types, data.sprites.front_shiny, true)
+                Pokemon.push({
+                    id: data.id,
+                    name: poke_name,
+                    types: data.types,
+                    sprite: data.sprites.front_shiny,
+                    shiny: true
+                })
+                //addPokemonToList(data.id, list_shiny_poke[i], data.types, data.sprites.front_shiny, true)
+                //viewPokemonList(list_shiny_poke[i], data.types, data.sprites.front_shiny, true)
             });
-    }
+        }
 
-    for (let i = 0; i < list_poke_num.length; i++) {
+    for (var i = 0; i < list_poke_num.length; i++) {
         const element = list_poke_num[i];
-        
+        const poke_name = list_poke[i];
+
         fetch(`https://pokeapi.co/api/v2/pokemon/${element}`)
             .then(response => response.json())
             .then(data => {
-                addPokemonToPage(list_poke[i], data.types, data.sprites.front_default, false)
+                Pokemon.push({
+                    id: data.id,
+                    name: poke_name,
+                    types: data.types,
+                    sprite: data.sprites.front_default,
+                    shiny: false
+                })
+                console.log(i)
+                if (Pokemon.length == list_poke_num.length + list_shiny_num.length) {
+                    console.log(Pokemon.length)
+                    Pokemon.sort((a, b) => a.id - b.id)
+                    //Pokemon.sort((a, b) => b.shiny - a.shiny)  -  UNCOMMAND if shiny on top of list
+                    viewPokemonList(Pokemon)
+                }
+                //addPokemonToList(data.id, list_poke[i], data.types, data.sprites.front_default, false)
+                //viewPokemonList(list_poke[i], data.types, data.sprites.front_default, false)
             });
-    }
-
-
-    console.group("informations about input")
-    console.log("raw input:\n\n" + input_poke_text)
-    console.log("raw input (mod):\n\n" + raw_input)
-    console.log("raw_poke (mod):\n\n" + raw_poke)
-    console.log("raw_normal_poke:\n\n" + raw_normal_poke)
-    console.log("raw_shiny_poke:\n\n" + raw_shiny_poke)
-    console.groupEnd()
-
+        }
 }
+
+///////////////////////////////////////
+// functions to get the pokemon list //
 
 function extractPokemon(list) {
     var array = list.split(",");
@@ -73,28 +93,36 @@ function extractPokemonNum(list) {
     return list;
 }
 
-function addPokemonToJSON(name, types, sprite, shiny) {
-    PokemonJSON.push(name, types, sprite, shiny)
-}
+//////////////////////////////////
+// functions to create elements //
 
-function addPokemonToPage(name, types, sprite, shiny) {
+function viewPokemonList(Pokemon) {
     const div = document.getElementById('show_pokemon_container');
+    console.log(Pokemon)
 
-    var template = `
-    <div class="pokemon_container${shiny ? " shiny" : ""}">
-        <div class="triangle${shiny ? " triangle-shiny" : ""}">
-            <div class="pokemon_image_container pokemon_item">
-                <img src="${sprite}" alt="pokemon_image">
+    for (let i = 0; i < Pokemon.length; i++) {
+        const element = Pokemon[i];
+
+        let shiny = element.shiny;
+        
+        var template = `
+        <div class="pokemon_container${shiny ? " shiny" : ""}">
+            <div class="triangle${shiny ? " triangle-shiny" : ""}">
+                <div class="pokemon_image_container pokemon_item">
+                    <img src="${element.sprite}" alt="pokemon_image">
+                </div>
             </div>
-        </div>
-        <div class="informations${shiny ? " shiny" : ""}">
-            <h2 class="pokemon_name pokemon_item${shiny ? " shiny" : ""}">${name}</h2>
-            ${types.map(type => getTypeDiv(type)).join("")}
-        </div>
-    </div>`;
-
-    div.innerHTML += template;
+            <div class="informations${shiny ? " shiny" : ""}">
+                <h2 class="pokemon_name pokemon_item${shiny ? " shiny" : ""}">${element.id} ${element.name}</h2>
+                ${element.types.map(type => getTypeDiv(type)).join("")}
+            </div>
+        </div>`;
+    
+        div.innerHTML += template;
+    }
 }
+
+//add function viewPokemonCompact
 
 function getTypeDiv(type) {
     const type_img = `/img/${type.type.name}.png`

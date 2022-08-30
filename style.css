@@ -22,19 +22,48 @@ body, html {
 * {
     font-family: 'Roboto', sans-serif;
     color: white;
+    font-size: 16px;
 }
 
 .website {
     background-color: var(--bg1);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     min-height: 100%;
     height: fit-content
 }
 
 .input_container {
     margin: 16px;
-    width: 80%;
+}
+
+button {
+    height: fit-content;
+    width: fit-content;
+    padding: 8px;
+    margin: 2px;
+    border-radius: 6px;
+    text-decoration: none;
+    background-color: #0099ff;
+    border: none;
+    outline: none;
+    transition-property: background-color;
+    transition-duration: .4s;
+}
+
+button:hover {
+    background-color: #007fd3;
+}
+
+button:focus {
+    border: 1px solid white;
+    margin: 1px;
+}
+
+button:active {
+    border: 2px solid #c7c3c3;
+    margin: 0;
+    transform: translateY(2px);
 }
 
 .input_container textarea {
@@ -42,10 +71,14 @@ body, html {
 }
 
 #input_poke_text {
-    height: 128px;
-    max-height: fit-content;
-    width: 80%;
+    height: 64px;
+    width: 128px;
     resize: none;
+    font-size: 11px;
+}
+
+#input_poke_text:focus {
+    outline: none;
 }
 
 #show_pokemon_container {

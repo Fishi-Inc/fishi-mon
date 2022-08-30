@@ -12,8 +12,9 @@
     <div class="website">
         <div class="input_container">
             <p>Pokemon Liste hier eintragen:</p>
-            <textarea id="input_poke_text" placeholder="Enter text here" cols="30" rows="10"></textarea>
-            <button id="input_button" onclick="submitPokeList()">Submit</button>
+            <button id="paste_list" onclick="pasteList()">aus Zwischenablage einfügen</button>
+            <textarea id="input_poke_text" placeholder="Pokemonliste hier einfügen..." cols="30" rows="10"></textarea>
+            <button id="input_button" onclick="submitPokeList()">Bestätigen</button>
         </div>
 
         <div id="show_pokemon_container">
