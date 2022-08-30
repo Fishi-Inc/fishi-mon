@@ -1,4 +1,5 @@
 var Pokemon = [];
+var ListMode = 0;
 
 function pasteList() {
     navigator.clipboard.readText().then(text => {
@@ -6,9 +7,25 @@ function pasteList() {
     });
 }
 
+function switchListMode() {
+    if (ListMode == 0) {
+        ListMode = 1;
+        if (Pokemon !== undefined && Pokemon.length != 0) viewPokemonListCompact(Pokemon);
+    } else {
+        ListMode = 0;
+        if (Pokemon !== undefined && Pokemon.length != 0) viewPokemonList(Pokemon);
+    }
+    return ListMode;
+}
+
 function submitPokeList() {
-    console.log(Pokemon)
-    if (Pokemon !== undefined && Pokemon.length != 0) return alert("Pokemon sind bereits geladen");
+    if (Pokemon !== undefined && Pokemon.length != 0) {
+        const div_list = document.getElementById('show_pokemon_list');
+        const div_compact = document.getElementById('show_pokemon_compact');
+        Pokemon = [];
+        div_list.innerHTML = "";
+        div_compact.innerHTML = "";
+    }
 
     const input_poke_text = document.getElementById("input_poke_text").value;
     const raw_input = input_poke_text.startsWith("********") ? input_poke_text.substring(input_poke_text.indexOf('\n') + 1) : input_poke_text;
@@ -60,12 +77,13 @@ function submitPokeList() {
                     sprite: data.sprites.front_default,
                     shiny: false
                 })
-                console.log(i)
+                console.log(list_poke_num.length, list_shiny_num)
                 if (Pokemon.length == list_poke_num.length + list_shiny_num.length) {
                     console.log(Pokemon.length)
                     Pokemon.sort((a, b) => a.id - b.id)
                     //Pokemon.sort((a, b) => b.shiny - a.shiny)  -  UNCOMMAND if shiny on top of list
-                    viewPokemonList(Pokemon)
+                    if (ListMode == 0) viewPokemonList(Pokemon);
+                    else viewPokemonListCompact(Pokemon);
                 }
                 //addPokemonToList(data.id, list_poke[i], data.types, data.sprites.front_default, false)
                 //viewPokemonList(list_poke[i], data.types, data.sprites.front_default, false)
@@ -93,6 +111,10 @@ function extractPokemonNum(list) {
         const element = array[index].substring(0, array[index].indexOf("-")).replace("#", "");
         list.push(element.trim())
     }
+
+    if (list[0] == "") {
+        list = [];
+    }
     return list;
 }
 
@@ -101,7 +123,9 @@ function extractPokemonNum(list) {
 
 function viewPokemonList(Pokemon) {
     const div = document.getElementById('show_pokemon_list');
-    console.log(Pokemon)
+    const div_compact = document.getElementById('show_pokemon_compact');
+    
+    if (div_compact.innerHTML != "") div_compact.innerHTML = "";
 
     for (let i = 0; i < Pokemon.length; i++) {
         const element = Pokemon[i];
@@ -115,13 +139,41 @@ function viewPokemonList(Pokemon) {
                     <img src="${element.sprite}" alt="pokemon_image">
                 </div>
             </div>
-            <div class="informations${shiny ? " shiny" : ""}">
+            <div class="informations">
                 <h2 class="pokemon_name pokemon_item${shiny ? " shiny" : ""}">${element.id} ${element.name}</h2>
                 ${element.types.map(type => getTypeDiv(type)).join("")}
             </div>
         </div>`;
     
         div.innerHTML += template;
+    }
+}
+
+function viewPokemonListCompact(Pokemon) {
+    const div_list = document.getElementById('show_pokemon_list');
+    const div = document.getElementById('show_pokemon_compact');
+
+    if (div_list.innerHTML != "") div_list.innerHTML = "";
+
+    for (let i = 0; i < Pokemon.length; i++) {
+        const element = Pokemon[i];
+
+        let shiny = element.shiny;
+        
+        var template = `
+        <div class="pokemon_container_compact${shiny ? " shiny" : ""}">
+            <div class="pokemon_image_container">
+                <img src="${element.sprite}" alt="pokemon_image">
+            </div>
+            <div class="informations">
+                <h2 class="pokemon_name${shiny ? " shiny" : ""}">${element.id}</h2>
+                <h2 class="pokemon_name${shiny ? " shiny" : ""}">${element.name}</h2>
+            </div>
+        </div>`;
+    
+        div.innerHTML += template;
+        //cut out types because they are too much
+        //${element.types.map(type => getTypeDiv(type)).join("")}
     }
 }
 

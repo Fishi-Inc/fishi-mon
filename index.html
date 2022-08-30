@@ -15,10 +15,15 @@
             <button id="paste_list" onclick="pasteList()">aus Zwischenablage einfügen</button>
             <textarea id="input_poke_text" placeholder="Pokemonliste hier einfügen..." cols="30" rows="10"></textarea>
             <button id="input_button" onclick="submitPokeList()">Bestätigen</button>
+            <label class="switch">
+                <input type="checkbox" onchange="switchListMode()">
+                <span class="slider round"></span>
+              </label>
         </div>
 
         <div id="show_pokemon_container">
             <div id="show_pokemon_list"></div>
+            <div id="show_pokemon_compact"></div>
         </div>
     </div>
     <script src="app.js"></script>
