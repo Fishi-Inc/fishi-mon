@@ -7,6 +7,9 @@ function pasteList() {
 }
 
 function submitPokeList() {
+    console.log(Pokemon)
+    if (Pokemon !== undefined && Pokemon.length != 0) return alert("Pokemon sind bereits geladen");
+
     const input_poke_text = document.getElementById("input_poke_text").value;
     const raw_input = input_poke_text.startsWith("********") ? input_poke_text.substring(input_poke_text.indexOf('\n') + 1) : input_poke_text;
 
