@@ -97,7 +97,7 @@ function extractPokemonNum(list) {
 // functions to create elements //
 
 function viewPokemonList(Pokemon) {
-    const div = document.getElementById('show_pokemon_container');
+    const div = document.getElementById('show_pokemon_list');
     console.log(Pokemon)
 
     for (let i = 0; i < Pokemon.length; i++) {

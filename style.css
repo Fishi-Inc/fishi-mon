@@ -87,8 +87,13 @@ button:active {
     align-items: flex-end;
     justify-content: baseline;
     height: 100%;
-    width: 20%;
+    width: 100%;
+}
 
+#show_pokemon_list {
+    min-width: fit-content;
+    width: 20%;
+    align-self: flex-end;
 }
 
 .pokemon_container {
