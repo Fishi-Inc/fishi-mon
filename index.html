@@ -11,17 +11,29 @@
 <body>
     <div class="website">
         <div class="input_container">
-            <p>Pokemon Liste hier eintragen:</p>
-            <button id="paste_list" onclick="pasteList()">aus Zwischenablage einfügen</button>
-            <textarea id="input_poke_text" placeholder="Pokemonliste hier einfügen..." cols="30" rows="10"></textarea>
+            <div id="textarea">
+                <button id="paste_list" title="aus Zwischenablage einfügen" onclick="pasteList()"><img src="/img/paste.png" alt="einfügen"></button>
+                <textarea id="input_poke_text" placeholder="********fishiinc********
+Normale Pokemon (1):
+#2 - Bisaknosp
+Shiny Pokemon (1):
+#5 - Glutexo" cols="30" rows="10"></textarea>
+            </div>
             <button id="input_button" onclick="submitPokeList()">Bestätigen</button>
-            <label class="switch">
-                <input type="checkbox" onchange="switchListMode()">
-                <span class="slider round"></span>
-              </label>
         </div>
 
         <div id="show_pokemon_container">
+            <div id="button_container">
+                <div class="button" id="button-10">
+                    <input type="checkbox" class="checkbox" onchange="switchListMode()"/>
+                    <div class="knobs">
+                        <img src="/img/list1.png" alt="List">
+                    </div>
+                    <div class="knobs_after">
+                        <img src="/img/list2.png" alt="Compact" class="knobs_after">
+                    </div>
+                </div>
+            </div>
             <div id="show_pokemon_list"></div>
             <div id="show_pokemon_compact"></div>
         </div>
