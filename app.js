@@ -10,9 +10,11 @@ function pasteList() {
 function switchListMode() {
     if (ListMode == 0) {
         ListMode = 1;
+        document.getElementsByClassName("checkbox")[0].title = "Listenansicht aktivieren";
         if (Pokemon !== undefined && Pokemon.length != 0) viewPokemonListCompact(Pokemon);
     } else {
         ListMode = 0;
+        document.getElementsByClassName("checkbox")[0].title = "Kachelansicht aktivieren";
         if (Pokemon !== undefined && Pokemon.length != 0) viewPokemonList(Pokemon);
     }
     return ListMode;
