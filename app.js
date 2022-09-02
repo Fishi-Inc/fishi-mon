@@ -135,7 +135,7 @@ function viewPokemonList(Pokemon) {
         let shiny = element.shiny;
         
         var template = `
-        <div class="pokemon_container${shiny ? " shiny" : ""}">
+        <div class="pokemon_container${shiny ? " shiny" : ""}" onclick="showDetails(this)">
             <div class="triangle${shiny ? " triangle-shiny" : ""}">
                 <div class="pokemon_image_container pokemon_item">
                     <img src="${element.sprite}" alt="pokemon_image">
@@ -163,7 +163,7 @@ function viewPokemonListCompact(Pokemon) {
         let shiny = element.shiny;
         
         var template = `
-        <div class="pokemon_container_compact${shiny ? " shiny" : ""}">
+        <div class="pokemon_container_compact${shiny ? " shiny" : ""}" onclick="showDetails(this)">
             <div class="pokemon_image_container">
                 <img src="${element.sprite}" alt="pokemon_image">
             </div>
@@ -185,6 +185,41 @@ function getTypeDiv(type) {
     const type_img = `/img/${type.type.name}.png`
     
     return `<img class="pokemon_type pokemon_item" src="${type_img}"></img>`;
+}
+
+///////////////////
+// detailed view //
+
+function showDetails(a) {
+    const website = document.querySelector('.website')
+
+
+    template = `
+    <div class="detail_view" id="detailed_view">
+        <div class="detail_title">
+            <p>Bisasam</p>
+            <p>Nr. 001</p>
+        </div>
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" alt="pokemon">
+        <p class="detail_desc">Dieses Pokémon trägt von Geburt an einen Samen auf dem Rücken, der im Laufe der Zeit keimt und wächst.</p>
+        <div class="detail_facts">
+            <div>
+                <p class="detail_fact_data">6.9kg</p>
+                <p class="detail_fact_title">Gewicht</p>
+            </div>
+            <div>
+                <p class="detail_fact_data">0.6m</p>
+                <p class="detail_fact_title">Größe</p>
+            </div>
+        </div>
+    </div>`
+
+    website.innerHTML += template;
+    const detailed_view = document.querySelector('#detailed_view')
+
+    detailed_view.style.top = a.getBoundingClientRect().top + "px";
+    detailed_view.style.left = a.getBoundingClientRect().left + "px";
+    console.log(a.clientTop)
 }
 
 //********fishiinc********

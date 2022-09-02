@@ -257,6 +257,7 @@ button:active {
     text-align: center;
     border-radius: 8px;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .pokemon_container {
@@ -268,6 +269,7 @@ button:active {
     width: 100%;
     margin: 4px 0 4px 0;
     background-color: var(--bg3);
+    cursor: pointer;
 }
 
 .shiny {
@@ -304,4 +306,78 @@ button:active {
 
 .pokemon_item {
     padding-right: 8px;
+}
+
+/* BEGIN - Detail view */
+
+.detail_view {
+    position: absolute;
+    z-index: 5;
+    background-color: var(--bg2);
+    border-radius: 6px;
+    width: 256px;
+    min-height: 256px;
+    height: fit-content;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.detail_view img {
+    width: 128px;
+    height: 128px;
+    align-self: center;
+}
+
+.detail_desc {
+    font-size: 18px;
+}
+
+.detail_title {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.detail_title p {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.detail_facts {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.detail_facts div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: fit-content;
+    margin: 4px 0 4px 0;
+}
+
+.detail_facts div p {
+    margin: 0;
+    font-size: 18px;
+}
+
+.detail_fact_data {
+    font-weight: bold;
+}
+
+.detail_fact_title {
+    font-weight: normal;
+    color: #c5c5c5;
 }
