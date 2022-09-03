@@ -301,11 +301,17 @@ button:active {
 .pokemon_name {
     font-family: Pokemon, sans-serif;
     font-size: 16px;
+    margin: 0;
     margin-bottom: 4px
 }
 
 .pokemon_item {
     padding-right: 8px;
+}
+
+.pokemon_id_name {
+    display: flex;
+    flex-direction: row;
 }
 
 /* BEGIN - Detail view */
@@ -329,6 +335,11 @@ button:active {
     width: 128px;
     height: 128px;
     align-self: center;
+}
+
+.detail_view div img {
+    width: 48px;
+    height: 18px;
 }
 
 .detail_desc {
@@ -380,4 +391,16 @@ button:active {
 .detail_fact_title {
     font-weight: normal;
     color: #c5c5c5;
+}
+
+.cover {
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

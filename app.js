@@ -142,7 +142,10 @@ function viewPokemonList(Pokemon) {
                 </div>
             </div>
             <div class="informations">
-                <h2 class="pokemon_name pokemon_item${shiny ? " shiny" : ""}">${element.id} ${element.name}</h2>
+                <div class="pokemon_id_name">
+                    <h2 class="pokemon_name pokemon_item${shiny ? " shiny" : ""}" id="pokemon_id">${element.id}</h2>
+                    <h2 class="pokemon_name pokemon_item${shiny ? " shiny" : ""}" id="pokemon_name">${element.name}</h2>
+                </div>
                 ${element.types.map(type => getTypeDiv(type)).join("")}
             </div>
         </div>`;
@@ -168,8 +171,8 @@ function viewPokemonListCompact(Pokemon) {
                 <img src="${element.sprite}" alt="pokemon_image">
             </div>
             <div class="informations">
-                <h2 class="pokemon_name${shiny ? " shiny" : ""}">${element.id}</h2>
-                <h2 class="pokemon_name${shiny ? " shiny" : ""}">${element.name}</h2>
+                <h2 class="pokemon_name${shiny ? " shiny" : ""}" id="pokemon_id">${element.id}</h2>
+                <h2 class="pokemon_name${shiny ? " shiny" : ""}" id="pokemon_name">${element.name}</h2>
             </div>
         </div>`;
     
@@ -191,35 +194,90 @@ function getTypeDiv(type) {
 // detailed view //
 
 function showDetails(a) {
-    const website = document.querySelector('.website')
+    const website = document.querySelector('.website');
+    const id = a.querySelector('#pokemon_id').innerHTML;
+    const name = a.querySelector('#pokemon_name').innerHTML;
 
+    fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            var description;
 
-    template = `
-    <div class="detail_view" id="detailed_view">
-        <div class="detail_title">
-            <p>Bisasam</p>
-            <p>Nr. 001</p>
-        </div>
-        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" alt="pokemon">
-        <p class="detail_desc">Dieses Pokémon trägt von Geburt an einen Samen auf dem Rücken, der im Laufe der Zeit keimt und wächst.</p>
-        <div class="detail_facts">
-            <div>
-                <p class="detail_fact_data">6.9kg</p>
-                <p class="detail_fact_title">Gewicht</p>
-            </div>
-            <div>
-                <p class="detail_fact_data">0.6m</p>
-                <p class="detail_fact_title">Größe</p>
-            </div>
-        </div>
-    </div>`
+            for (let i = 0; i < data.flavor_text_entries.length; i++) {
+                const element = data.flavor_text_entries[i];
+                if (element.language.name == "de" && element.version.name == "alpha-sapphire" && element.flavor_text != "") {
+                    description = element.flavor_text;
+                    console.log(description)
+                    break;
+                } else if (element.language.name == "de" && element.version.name == "shield" && element.flavor_text != "") {
+                    description = element.flavor_text;
+                    console.log(description)
+                }
+            }
 
-    website.innerHTML += template;
-    const detailed_view = document.querySelector('#detailed_view')
+            fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                switch (id) {
+                    case id < 10:
+                        id = "00" + id;
+                        break;
+                    case id < 100:
+                        id = "0" + id;
+                        break;
+                    default:
+                        break;
+                }
 
-    detailed_view.style.top = a.getBoundingClientRect().top + "px";
-    detailed_view.style.left = a.getBoundingClientRect().left + "px";
-    console.log(a.clientTop)
+                var types;
+
+                for (let i = 0; i < Pokemon.length; i++) {
+                    const element = Pokemon[i];
+                    if (element.id == id) {
+                        types = element.types;
+                        break;
+                    }
+                }
+            
+                template = `
+                <div class="cover">
+                    <div class="detail_view" id="detailed_view">
+                        <div class="detail_title">
+                            <p>${name}</p>
+                            <p>Nr. ${id}</p>
+                        </div>
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" alt="pokemon">
+                        <p class="detail_desc">${description}</p>
+                        <div class="detail_facts">
+                            <div>
+                                <p class="detail_fact_data">${data.weight / 10}kg</p>
+                                <p class="detail_fact_title">Gewicht</p>
+                            </div>
+                            <div>
+                                <p class="detail_fact_data">${data.height / 10}m</p>
+                                <p class="detail_fact_title">Größe</p>
+                            </div>
+                            <div>
+                                ${types.map(type => getTypeDiv(type)).join("")}
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+            
+                if (document.querySelectorAll(".detail_view")[0]) document.querySelectorAll(".detail_view")[0].remove();
+                
+                website.innerHTML += template;
+
+                const detail_view = document.getElementById('detailed_view');
+                detail_view.style.top = "10vh";
+                detail_view.style.left = "clacl(50% - 256px)";
+
+                const cover = document.querySelector('.cover');
+                cover.addEventListener('click', function() {
+                    cover.remove();
+                });
+            })
+        })
 }
 
 //********fishiinc********
