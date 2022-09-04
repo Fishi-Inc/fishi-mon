@@ -79,9 +79,7 @@ function submitPokeList() {
                     sprite: data.sprites.front_default,
                     shiny: false
                 })
-                console.log(list_poke_num.length, list_shiny_num)
                 if (Pokemon.length == list_poke_num.length + list_shiny_num.length) {
-                    console.log(Pokemon.length)
                     Pokemon.sort((a, b) => a.id - b.id)
                     //Pokemon.sort((a, b) => b.shiny - a.shiny)  -  UNCOMMAND if shiny on top of list
                     if (ListMode == 0) viewPokemonList(Pokemon);
@@ -207,11 +205,9 @@ function showDetails(a) {
                 const element = data.flavor_text_entries[i];
                 if (element.language.name == "de" && element.version.name == "alpha-sapphire" && element.flavor_text != "") {
                     description = element.flavor_text;
-                    console.log(description)
                     break;
                 } else if (element.language.name == "de" && element.version.name == "shield" && element.flavor_text != "") {
                     description = element.flavor_text;
-                    console.log(description)
                 }
             }
 
