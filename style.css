@@ -318,7 +318,7 @@ button:active {
 
 .detail_view {
     position: absolute;
-    z-index: 5;
+    z-index: 10;
     background-color: var(--bg2);
     border-radius: 6px;
     width: 256px;
@@ -394,7 +394,7 @@ button:active {
 }
 
 .cover {
-    z-index: 10;
+    z-index: 9;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
     width: 100vw;
